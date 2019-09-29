@@ -1,0 +1,9 @@
+version: 2
+jobs:
+  test_small:
+    docker: 
+      - image: golang:1.13.1-alpine3.10
+    steps:
+      - run: apk add --no-cache git build-base
+      - checkout
+      - run: go test -cover -v .
