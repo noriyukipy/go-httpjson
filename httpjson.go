@@ -5,10 +5,11 @@ import (
 	"net/http"
 )
 
-type StatusCode int
 type validationError struct{}
 
-func Validate(req *http.Request) (error, StatusCode) {
+// When error raised, Validate returns corresponded StatusCode as a second value
+// You can set it as a status code for a HTTP response.
+func Validate(req *http.Request) (error, int) {
 	// Check request method
 	if req.Method != http.MethodPost {
 		// return 405 Method Not Allowed
@@ -33,7 +34,7 @@ func (err *validationError) Error() string {
 	return "ValidationError"
 }
 
-func ValidateAndDecode(req *http.Request, v interface{}) (error, StatusCode) {
+func ValidateAndDecode(req *http.Request, v interface{}) (error, int) {
 	if err, statusCode := Validate(req); err != nil {
 		return &validationError{}, statusCode
 	}
