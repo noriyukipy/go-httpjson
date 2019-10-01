@@ -3,23 +3,34 @@ package httpjson
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 )
 
 type validationError struct{}
 
-// When error raised, Validate returns corresponded StatusCode as a second value
-// You can set it as a status code for a HTTP response.
+// Validate checks HTTP request method and header.
+// Validate returns both error and corresponded StatusCode when validation fails.
+// The StatusCode can be set as a status code for a HTTP response.
 func Validate(req *http.Request) (error, int) {
 	// Check request method
 	if req.Method != http.MethodPost {
 		// return 405 Method Not Allowed
 		return &validationError{}, http.StatusMethodNotAllowed
 	}
-	// Check content-type
-	if req.Header.Get("Content-Type") != "application/json" {
-		// return 400
+
+	// Check Content-Type
+	contentTypeOk := false
+	for _, contentType := range strings.Split(req.Header.Get("Content-Type"), ";") {
+		contentTypeTrimed := strings.TrimSpace(contentType)
+		if contentTypeTrimed == "application/json" {
+			contentTypeOk = true
+		}
+	}
+	if !contentTypeOk {
+		// return 405 Bad Request
 		return &validationError{}, http.StatusBadRequest
 	}
+
 	return nil, http.StatusOK
 }
 
