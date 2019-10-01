@@ -17,7 +17,7 @@ func Validate(req *http.Request) (error, int) {
 	}
 	// Check content-type
 	if req.Header.Get("Content-Type") != "application/json" {
-		// return 403
+		// return 400
 		return &validationError{}, http.StatusBadRequest
 	}
 	return nil, http.StatusOK
