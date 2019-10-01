@@ -14,6 +14,7 @@ func buildValidRequest() *http.Request {
 	return req
 }
 
+// Test for Validate function
 func TestValidateOK(t *testing.T) {
 	req, _ := http.NewRequest(http.MethodPost, "http://example.com", nil)
 	req.Header.Set("Content-Type", "application/json")
@@ -24,6 +25,8 @@ func TestValidateOK(t *testing.T) {
 	}
 }
 
+// Test for Validate function
+// Case: request method is invalid
 func TestValidateInvalidMethod(t *testing.T) {
 	req, _ := http.NewRequest(http.MethodGet, "http://example.com", nil)
 	err, code := Validate(req)
@@ -32,12 +35,26 @@ func TestValidateInvalidMethod(t *testing.T) {
 	}
 }
 
+// Test for Validate function
+// Case: Content-Type header is invalid
 func TestValidateInvalidContentType(t *testing.T) {
 	req, _ := http.NewRequest(http.MethodGet, "http://example.com", nil)
 	req.Header.Set("Content-Type", "text/plain")
 
 	err, code := Validate(req)
 	if !(err != nil && code == http.StatusMethodNotAllowed) {
+		t.Error("Content-Type validation failed")
+	}
+}
+
+// Test for Validate function
+// Case: Content-Type header is multi-valued with semicolon separator
+func TestValidateMultivaluedContentType(t *testing.T) {
+	req, _ := http.NewRequest(http.MethodPost, "http://example.com", nil)
+	req.Header.Set("Content-Type", "application/json; charset=utf8")
+
+	err, _ := Validate(req)
+	if err != nil {
 		t.Error("Content-Type validation failed")
 	}
 }
