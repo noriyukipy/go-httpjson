@@ -8,7 +8,13 @@ This repository provides useful functions to deal with JSON requests via HTTP.
 
 ### ValidateAndDecode
 
-`ValidateAndDecode` function checks HTTP request with JSON body and decode JSON to struct.
+`ValidateAndDecode` first checks HTTP request method and header, then decode JSON body to struct.
+`ValidateAndDecode` returns both error and corresponded StatusCode.
+
+When validation or decode fails, the StatusCode has corresponded error code.
+Therefore, the StatusCode can be set as a status code for a HTTP response.
+
+StatusCode is set to `http.StatusOK` if the both of them are success.
 
 ```go
 type User struct {
