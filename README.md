@@ -45,7 +45,7 @@ type User struct {
 }
 
 func handleUser(w http.ResponseWriter, r *http.Request) {
-    user := User{Name: "NAME", Age: "Age"}
+	user := User{Name: "NAME", Age: "Age"}
 	err := httpjson.WriteResponse(w, http.StatusOK, &user)
 	if err != nil {
 		log.Printf(err.Error())
