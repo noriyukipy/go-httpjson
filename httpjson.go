@@ -55,3 +55,20 @@ func ValidateAndDecode(req *http.Request, v interface{}) (error, int) {
 
 	return nil, http.StatusOK
 }
+
+
+func WriteResponse(w http.ResponseWriter, statusCode int, v interface{}) error {
+	vBinary, errM := json.Marshal(v)
+	if errM != nil {
+		return errM
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(statusCode)
+	_, err := w.Write(vBinary)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
