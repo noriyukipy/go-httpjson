@@ -32,3 +32,25 @@ func handleUser(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Request: %v", user)
 }
 ```
+
+### WriteResponse
+
+WriteResponse writes StatusCode and JSON body to response.
+It also sets Content-Type header to application/json.
+
+```go
+type User struct {
+	Name string `json:"text"`
+	Age int `json:"int"`
+}
+
+func handleUser(w http.ResponseWriter, r *http.Request) {
+    user := User{Name: "NAME", Age: "Age"}
+	err := httpjson.WriteResponse(w, http.StatusOK, &user)
+	if err != nil {
+		log.Printf(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+}
+```

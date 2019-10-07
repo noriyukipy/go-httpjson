@@ -56,6 +56,8 @@ func ValidateAndDecode(req *http.Request, v interface{}) (error, int) {
 	return nil, http.StatusOK
 }
 
+// WriteResponse writes StatusCode and JSON body to response.
+// It also sets Content-Type header to application/json.
 func WriteResponse(w http.ResponseWriter, statusCode int, v interface{}) error {
 	vBinary, errM := json.Marshal(v)
 	if errM != nil {
