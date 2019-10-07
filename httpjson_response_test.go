@@ -8,7 +8,7 @@ import (
 // Mock for ResponseWriter
 type ResponseWriterMock struct {
 	statusCode int
-	header http.Header
+	header     http.Header
 }
 
 func (self *ResponseWriterMock) Header() http.Header {
@@ -31,11 +31,10 @@ func newResponseWriterMock() *ResponseWriterMock {
 type testStruct struct {
 	Token string `json:"token"`
 	App   string `json:"app"`
-
 }
 
 func newTestStruct() *testStruct {
-	return &testStruct{Token:"TOKEN", App: "APP"}
+	return &testStruct{Token: "TOKEN", App: "APP"}
 }
 
 // Test for ResponseWriter

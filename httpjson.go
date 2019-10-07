@@ -56,7 +56,6 @@ func ValidateAndDecode(req *http.Request, v interface{}) (error, int) {
 	return nil, http.StatusOK
 }
 
-
 func WriteResponse(w http.ResponseWriter, statusCode int, v interface{}) error {
 	vBinary, errM := json.Marshal(v)
 	if errM != nil {
