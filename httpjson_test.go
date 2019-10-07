@@ -98,7 +98,6 @@ func TestValidateAndDecode(t *testing.T) {
 		App   string `json:"app"`
 	}{}
 	err, _ := ValidateAndDecode(req, &v)
-	t.Log(err)
 	if err != nil {
 		t.Error("ValidateAndDecode fail for valid request")
 
